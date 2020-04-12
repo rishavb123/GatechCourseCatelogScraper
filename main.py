@@ -2,10 +2,10 @@ from bs4 import BeautifulSoup
 import urllib.request
 import numpy as np
 
-# url1 = input("Enter the first url: ")
-# url2 = input("Enter the second url: ")
-url1 = "http://catalog.gatech.edu/programs/theory-intelligence-computer-science-bs/#requirementstext"
-url2 = "http://catalog.gatech.edu/programs/physics-physics-living-systems-bs/#requirementstext"
+url1 = input("Enter the first url: ")
+url2 = input("Enter the second url: ")
+# url1 = "http://catalog.gatech.edu/programs/theory-intelligence-computer-science-bs/#requirementstext"
+# url2 = "http://catalog.gatech.edu/programs/mathematics-discrete-bs/"
 
 def scrape(url):
     page = urllib.request.urlopen(url)
@@ -30,3 +30,18 @@ def print_row(data, index):
     # print(category, str(code) + "\t" + name)
 
 categories, codes, names = data = scrape(url1)
+categories2, codes2, names2 = data2 = scrape(url2)
+
+i = 0
+while i < len(codes):
+    if codes[i] not in codes2:
+        del categories[i]
+        del codes[i]
+        del names[i]
+    else:
+        i += 1
+
+data = (categories, codes, names)
+for i in range(len(categories)):
+    print_row(data, i)
+print(len(categories), "courses overlapped")

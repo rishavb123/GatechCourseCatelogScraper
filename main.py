@@ -5,7 +5,7 @@ import numpy as np
 urls = []
 url = input("Enter a URL (DONE to finish): ")
 
-while url.lower() != "done":
+while url.lower() != "done" and url.lower() != "":
     urls.append(url)
     url = input("Enter a URL (DONE to finish): ")
 

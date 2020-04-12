@@ -2,10 +2,12 @@ from bs4 import BeautifulSoup
 import urllib.request
 import numpy as np
 
-url1 = input("Enter the first url: ")
-url2 = input("Enter the second url: ")
-# url1 = "http://catalog.gatech.edu/programs/theory-intelligence-computer-science-bs/#requirementstext"
-# url2 = "http://catalog.gatech.edu/programs/mathematics-discrete-bs/"
+urls = []
+url = input("Enter a URL (DONE to finish): ")
+
+while url.lower() != "done":
+    urls.append(url)
+    url = input("Enter a URL (DONE to finish): ")
 
 def scrape(url):
     page = urllib.request.urlopen(url)
@@ -29,12 +31,16 @@ def print_row(data, index):
     print("%-5s%-10d%s" % data)
     # print(category, str(code) + "\t" + name)
 
-categories, codes, names = data = scrape(url1)
-categories2, codes2, names2 = data2 = scrape(url2)
+datas = [scrape(url) for url in urls]
+
+categories, codes, names = datas.pop(0)
 
 i = 0
 while i < len(codes):
-    if codes[i] not in codes2:
+    should_delete = False
+    for data in datas:
+        should_delete = should_delete or codes[i] not in data[1]
+    if should_delete:
         del categories[i]
         del codes[i]
         del names[i]
